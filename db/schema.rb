@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_06_031249) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_07_232917) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -23,11 +23,21 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_06_031249) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "shopping_cart_products", force: :cascade do |t|
+    t.bigint "shopping_cart_id", null: false
+    t.bigint "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_shopping_cart_products_on_product_id"
+    t.index ["shopping_cart_id"], name: "index_shopping_cart_products_on_shopping_cart_id"
+  end
+
   create_table "shopping_carts", force: :cascade do |t|
     t.integer "total", default: 0
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "active", default: false
     t.index ["user_id"], name: "index_shopping_carts_on_user_id"
   end
 
@@ -38,5 +48,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_06_031249) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "shopping_cart_products", "products"
+  add_foreign_key "shopping_cart_products", "shopping_carts"
   add_foreign_key "shopping_carts", "users"
 end

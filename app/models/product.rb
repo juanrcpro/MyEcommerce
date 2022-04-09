@@ -12,6 +12,9 @@
 #
 class Product < ApplicationRecord
 
+    #has_many :shopping_carts
+    has_many :shopping_cart_products
+
     #CALLBACKS
     before_save :validate_product #se ejecuta antes del metodo save
     after_save :send_notification #se ejecuta despues del metodo save
